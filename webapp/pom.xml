@@ -149,6 +149,48 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Wildfly 8 plugin that can :
+                1.  start Wildfly (without deploying the application produced by this project)
+                    $ mvn -Dmaven.test.skip=true wildfly:start -Dwildfly.version=8.0.0.CR1
+                2.  start Wildfly and deploy the application produced by this project (see (*) below).
+                    $ mvn -Dmaven.test.skip=true wildfly:run -Dwildfly.version=8.0.0.CR1 
+                3.  deploying the application produced by this project (see (*) below) into already started Wildfly 8 instance
+                    $ mvn -Dmaven.test.skip=true wildfly:deploy -Dwildfly.version=8.0.0.CR1
+                etc.. etc.. please see https://docs.jboss.org/wildfly/plugins/maven/latest/plugin-info.html
+                for more.
+                
+                (*) - Note that in the case of this module, the final .war is renamed
+                to websock-webapp.war (from default webapp-1.0-SNAPSHOT.war derived
+                from its mvn coordinates). Hence, need to specify this updated name with
+                    <configuration>
+                        <filename>websock-webapp.war</filename>
+                    </configuration>                 
+                below.
+                
+                If Wildfly 8 instance is not installed yet, then all of the above commands will first download (its .zip), 
+                extract (.zip) and install Wildfly 8 instance.
+            -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.0.Beta1</version>
+                <configuration>
+                    <filename>websock-webapp.war</filename>
+                </configuration>
+                
+                <!-- By default everything happens in the install phase, but this
+                can be overriden by changing below.
+                <executions>                    
+                    <execution>
+                        <id>deploy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>                    
+                -->
+            </plugin>
         </plugins>
     </build>
 

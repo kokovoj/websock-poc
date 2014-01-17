@@ -113,18 +113,5 @@
             </dependencies>
         </profile>
   </profiles>
-  <build>
-    <plugins>
-        <!-- Wildfly 8 plugin that allows deploying the application (and downloading, installing
-         and starting Wildfly 8) with this mvn command
-            mvn wildfly:run -Dwildfly.version=8.0.0.CR1
-        -->
-        <plugin>
-            <groupId>org.wildfly.plugins</groupId>
-            <artifactId>wildfly-maven-plugin</artifactId>
-            <version>1.0.0.Beta1</version>
-        </plugin>        
-    </plugins>      
-  </build>
-  
+    
 </project>
