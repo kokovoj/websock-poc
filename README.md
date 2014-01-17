@@ -12,4 +12,20 @@ this location when running integration tests.
 
 	$ mvn clean install
 
-which should build everything, including running unit and integration tests. 
+which should build everything, including running unit and server-side integration tests.
+
+4.	To deploy the websock-webapp.war and test via UI
+
+	a.	compile /webapp sub-module that builds /webapp/target/websock-webapp.war
+
+	$ cd webapp
+	$ mvn clean install
+
+	b.	start your favorite Servlet Container (Undertow/Wildfly, Jetty, Tomcat, etc.)
+
+	c.	copy /webapp/target/websock-webapp.war into Servlet Container's deployment folder; confirm via logs that it has been deployed
+
+	d.	open your favorite browser and navigate to http://localhost:8080/websock-webapp
+
+	e.	enter text into textfield and press Send Web Socket Data button; observe that server returns same message you entered
+		appended with "_server"	 
