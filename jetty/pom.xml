@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.websock-poc</groupId>
+        <artifactId>websock-poc</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    
+    <groupId>com.websock-poc</groupId>
+    <artifactId>jetty</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>jetty</name>
+    <url>http://maven.apache.org</url>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <jetty.version>9.1.1.v20140108</jetty.version>
+        <!--jetty.version>9.1.0.v20131115</jetty.version-->
+        <!--jetty.version>9.1.0.RC2</jetty.version-->
+        <!--jetty.version>9.0.3.v20130506</jetty.version-->
+    </properties>
+        
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.websock-poc</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>       
+        </dependency>
+    </dependencies>
+  
+    <profiles>
+        <profile>
+            <id>arquillian-jetty-9-embedded</id>
+            <!-- Make it default one -->
+            <activation><activeByDefault>true</activeByDefault></activation>
+            
+            <dependencyManagement>
+                <dependencies>                
+                    <dependency>
+                        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                        <artifactId>shrinkwrap-resolver-bom</artifactId>
+                        <version>1.0.0-beta-6</version>
+                        <scope>import</scope> 
+                        <type>pom</type>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>        
+
+            <dependencies>
+
+                <!-- Arquillian-related -->
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-jetty-embedded-9</artifactId>
+                    <version>1.0.0.CR2</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.junit</groupId>
+                    <artifactId>arquillian-junit-container</artifactId>
+                    <version>1.0.0.Final</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
+                    <version>1.0.0.Final</version>
+                    <scope>provided</scope>
+                </dependency>
+                
+                <!-- Jetty -->              
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>  
+                    <artifactId>jetty-server</artifactId>  
+                    <version>${jetty.version}</version>  
+                    <scope>provided</scope>  
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>  
+                    <artifactId>jetty-util</artifactId>  
+                    <version>${jetty.version}</version>  
+                    <scope>provided</scope>  
+                </dependency>                
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>  
+                    <artifactId>jetty-webapp</artifactId>  
+                    <version>${jetty.version}</version>  
+                    <scope>provided</scope>  
+                </dependency>                
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>  
+                    <artifactId>jetty-plus</artifactId>  
+                    <version>${jetty.version}</version>  
+                    <scope>provided</scope>  
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-annotations</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                
+                <!-- Web Socket API -->
+                <dependency>
+                    <groupId>javax.websocket</groupId>
+                    <artifactId>javax.websocket-api</artifactId>
+                    <version>1.0</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- Jetty Web Socket Implementation -->
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>javax-websocket-client-impl</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>javax-websocket-server-impl</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>websocket-api</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>websocket-client</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>websocket-common</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>websocket-server</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>websocket-servlet</artifactId>
+                    <version>${jetty.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+            </dependencies>            
+        </profile>
+    </profiles>
+        
+</project>

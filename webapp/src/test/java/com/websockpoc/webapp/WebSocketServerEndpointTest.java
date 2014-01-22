@@ -1,5 +1,7 @@
 package com.websockpoc.webapp;
 
+import com.websockpoc.common.WebSocketClientEndpoint;
+import com.websockpoc.common.WebAppConstants;
 import java.net.URI;
 import javax.websocket.Session;
 import org.glassfish.tyrus.client.ClientManager;

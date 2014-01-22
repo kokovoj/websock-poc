@@ -1,6 +1,6 @@
 package com.websockpoc.wildfly;
 
-import com.websockpoc.webapp.WebAppConstants;
+import com.websockpoc.common.WebAppConstants;
 
 import static io.undertow.Handlers.path;
 import static io.undertow.Handlers.resource;

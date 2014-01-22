@@ -8,8 +8,10 @@
   <packaging>pom</packaging>
   <name>websock-poc</name>
   <modules>
+    <module>common</module>
     <module>webapp</module>
     <module>wildfly</module>
+    <module>jetty</module>
   </modules>
   
 </project>

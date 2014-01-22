@@ -1,7 +1,7 @@
 package com.websockpoc.wildfly;
 
-import com.websockpoc.webapp.WebSocketClientEndpoint;
-import com.websockpoc.webapp.WebAppConstants;
+import com.websockpoc.common.WebSocketClientEndpoint;
+import com.websockpoc.common.WebAppConstants;
 
 import io.undertow.websockets.jsr.ConfiguredServerEndpoint;
 import io.undertow.websockets.jsr.ServerWebSocketContainer;
@@ -57,8 +57,7 @@ public class WebsockWildflyDeploymentWithArquillianTest {
     @Deployment
     @OverProtocol("Servlet 3.0")
     public static WebArchive createTestArchive() throws IOException {
-                
-                
+
         // To load it up from the file system, ie. to import (ie. to do the reverse operation) so 
         // This is how to use an existing .war on the local file system and convert it into the WebArchive
         // object which is installed into JBoss as an .war by Arquillian.   
@@ -68,12 +67,6 @@ public class WebsockWildflyDeploymentWithArquillianTest {
             .create( ZipImporter.class, warWithSuffix )
             .importFrom( new File( ".", "../webapp/target/" + warWithSuffix ) )
             .as( WebArchive.class );
-        
-        // IMPORTANT: programmatically add /websock-poc/webapp/src/test/java/com/websockpoc/webapp/WebSocketClientEndpoint.java
-        // (matching test WebSocketClientEndpoint implementation to the 
-        // /websock-poc/webapp/src/main/java/com/websockpoc/webapp/WebSocketServerEndpoint.java) into the deployed 
-        // websock-webapp.war (which does not have it), so that both Server and Client WebSocket endpoints are deployed.
-        webArchive.addClass( WebSocketClientEndpoint.class );
         
         System.out.println( "==> createTestArchive is about to deploy [" + warWithSuffix + "] with its contents being [\n" + 
             webArchive.toString( true ) + "\n]\n" );
@@ -110,8 +103,8 @@ public class WebsockWildflyDeploymentWithArquillianTest {
                 "WebSocketServerEndpoint" ) && 
             // "/echo" 
             WebAppConstants.WEBSOCKET_SERVER_ENDPOINT_URL.equals( configuredServerEndpoint.getEndpointConfiguration().getPath() ) );
-        Set<Session> openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "Initially Server Endpoint Session is not null", openSessions == null || openSessions.isEmpty() );
+        Set<Session> serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "Initially Server Endpoint Session is not null", serverEndpointOpenSessions == null || serverEndpointOpenSessions.isEmpty() );
                 
         // Create a new Client EndPoint session ... 
         Session clientSession = undertowWebSocketContainer.connectToServer( WebSocketClientEndpoint.class,
@@ -119,8 +112,8 @@ public class WebsockWildflyDeploymentWithArquillianTest {
             new URI( WebAppConstants.WEBSOCKET_FULL_URL ) );
         // ... (which also creates a matching Server EndPoint session as well)
         configuredServerEndpoint = getConfiguredServerEndpoint();
-        openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "No configured open session or more than one", openSessions != null && openSessions.size() == 1 );
+        serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "No configured open session or more than one", serverEndpointOpenSessions != null && serverEndpointOpenSessions.size() == 1 );
 
         //
         // ClientEndpoint sends message to ServerEndpoint
@@ -194,8 +187,8 @@ public class WebsockWildflyDeploymentWithArquillianTest {
                 "WebSocketServerEndpoint" ) && 
             // "/echo" 
             WebAppConstants.WEBSOCKET_SERVER_ENDPOINT_URL.equals( configuredServerEndpoint.getEndpointConfiguration().getPath() ) );
-        Set<Session> openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "Initially Server Endpoint Session is not null", openSessions == null || openSessions.isEmpty() );
+        Set<Session> serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "Initially Server Endpoint Session is not null", serverEndpointOpenSessions == null || serverEndpointOpenSessions.isEmpty() );
                 
         // Create a new Client EndPoint session ... 
         undertowWebSocketContainer.connectToServer( WebSocketClientEndpoint.class, 
@@ -203,9 +196,9 @@ public class WebsockWildflyDeploymentWithArquillianTest {
             new URI( WebAppConstants.WEBSOCKET_FULL_URL ) );
         // ... (which also creates a matching Server EndPoint session as well)
         configuredServerEndpoint = getConfiguredServerEndpoint();
-        openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "No configured open session or more than one", openSessions != null && openSessions.size() == 1 );
-        Session serverSession = openSessions.iterator().next();
+        serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "No configured open session or more than one", serverEndpointOpenSessions != null && serverEndpointOpenSessions.size() == 1 );
+        Session serverSession = serverEndpointOpenSessions.iterator().next();
         
         //
         // After serverSession is initiated, ServerEndpoint sends message to ClientEndpoint ...
@@ -222,8 +215,8 @@ public class WebsockWildflyDeploymentWithArquillianTest {
         // to server, server terminated the session 
         assertFalse( serverSession.isOpen() );
         configuredServerEndpoint = getConfiguredServerEndpoint();
-        openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "Open Server Endpoint sessions when there should be none", openSessions == null || openSessions.isEmpty() );
+        serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "Open Server Endpoint sessions when there should be none", serverEndpointOpenSessions == null || serverEndpointOpenSessions.isEmpty() );
 
         //
         // Since server session was terminated, need to start a new one before ServerEndpoint sends message 
@@ -234,9 +227,9 @@ public class WebsockWildflyDeploymentWithArquillianTest {
             new URI( WebAppConstants.WEBSOCKET_FULL_URL ) );
         // ... (which also creates a matching Server EndPoint session as well)
         configuredServerEndpoint = getConfiguredServerEndpoint();
-        openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "No configured open session or more than one", openSessions != null && openSessions.size() == 1 );
-        serverSession = openSessions.iterator().next();
+        serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "No configured open session or more than one", serverEndpointOpenSessions != null && serverEndpointOpenSessions.size() == 1 );
+        serverSession = serverEndpointOpenSessions.iterator().next();
         serverInitiatedMessage = "serverInitiatedMessage_2";
         
         serverSession.getBasicRemote().sendText( serverInitiatedMessage );
@@ -250,8 +243,8 @@ public class WebsockWildflyDeploymentWithArquillianTest {
         // to server, server terminated the session 
         assertFalse( serverSession.isOpen() );
         configuredServerEndpoint = getConfiguredServerEndpoint();
-        openSessions = configuredServerEndpoint.getOpenSessions();
-        assertTrue( "Open Server Endpoint sessions when there should be none", openSessions == null || openSessions.isEmpty() );        
+        serverEndpointOpenSessions = configuredServerEndpoint.getOpenSessions();
+        assertTrue( "Open Server Endpoint sessions when there should be none", serverEndpointOpenSessions == null || serverEndpointOpenSessions.isEmpty() );        
         
         System.out.println( "-- testWebSocketMessageInitiatedByServerEndPoint END --" );
     }    

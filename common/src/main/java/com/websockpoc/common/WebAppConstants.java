@@ -1,4 +1,4 @@
-package com.websockpoc.webapp;
+package com.websockpoc.common;
 
 /**
  * Defines common constants used everywhere else.
@@ -7,9 +7,13 @@ package com.websockpoc.webapp;
  */
 public class WebAppConstants {
 
+    // Note that currently /websock-poc/webapp/src/main/webapp/index.html hardcodes full
+    // ws URI as ws://127.0.0.1:8080/websock-webapp/echo. Need to find a way to instead
+    // use below constants.
+
     // Could be wss:// for Secure WebSocket
     public final static String WEBSOCKET_PROTOCOL = "ws://";
-    public final static String WEBSOCKET_HOST = "localhost";
+    public final static String WEBSOCKET_HOST = "127.0.0.1";
     public final static int WEBSOCKET_PORT = 8080;
     
     // Web app name without .war

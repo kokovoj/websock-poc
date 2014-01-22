@@ -1,5 +1,6 @@
 package com.websockpoc.webapp;
 
+import com.websockpoc.common.WebAppConstants;
 import java.util.logging.Logger;
 import javax.websocket.CloseReason;
 
@@ -76,7 +77,7 @@ public class WebSocketServerEndpoint /* <T> */{
     @OnError
     public void onError(Session session, Throwable t) {
         logger.severe(String.format( "<--- ServerEndpoint encountered an error=[%s], sessionId=[%s]", 
-            t.getMessage(), session.getId() ) );
+            ( t == null ? "" : t.getMessage() ), ( session == null ? "" : session.getId() ) ) );
     }
     
     @OnClose

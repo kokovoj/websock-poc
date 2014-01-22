@@ -1,4 +1,4 @@
-package com.websockpoc.webapp;
+package com.websockpoc.common;
 
 import java.util.logging.Logger;
 import javax.websocket.ClientEndpoint;
@@ -61,7 +61,7 @@ public class WebSocketClientEndpoint {
     @OnError
     public void onError(Session session, Throwable t) {
         logger.severe(String.format( "---> ClientEndpoint encountered an error=[%s], sessionId=[%s]", 
-            t.getMessage(), session.getId() ) );
+            ( t == null ? "" : t.getMessage() ), ( session == null ? "" : session.getId() ) ) );
     }
 
     @OnClose
