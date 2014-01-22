@@ -23,7 +23,7 @@ public class WebAppConstants {
     public final static String WEBSOCKET_WEBAPP_URL = "//" + WEBSOCKET_WEBAPP_NAME;
     public final static String WEBSOCKET_SERVER_ENDPOINT_URL = "/echo";
     
-    // "ws://localhost:8080/websock-webapp/echo
+    // "ws://127.0.0.1:8080/websock-webapp/echo
     public final static String WEBSOCKET_FULL_URL = 
         WEBSOCKET_PROTOCOL + WEBSOCKET_HOST + ":" + WEBSOCKET_PORT + WEBSOCKET_WEBAPP_URL + WEBSOCKET_SERVER_ENDPOINT_URL;
     

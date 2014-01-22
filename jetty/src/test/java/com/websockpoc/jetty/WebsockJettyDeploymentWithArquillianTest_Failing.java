@@ -40,7 +40,7 @@ import org.junit.runner.RunWith;
  */
 
 @RunWith(Arquillian.class)
-public class WebsockJettyDeploymentTest
+public class WebsockJettyDeploymentWithArquillianTest_Failing
 {
     /**
      * Arquillian WebArchive deployment method. Works with :

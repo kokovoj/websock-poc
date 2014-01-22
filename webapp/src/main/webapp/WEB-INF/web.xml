@@ -4,6 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1" metadata-complete="false">
 	
-    <!-- Don't need to specify servlets, etc. with metadata-complete="false". Neat. -->
+    <!-- Don't need to specify servlets, filters, context listeners, etc. with metadata-complete="false". Neat. -->
     
 </web-app>
